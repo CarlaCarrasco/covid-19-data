@@ -1,47 +1,96 @@
 import React from 'react';
 import axios from 'axios'; // for http requests
+import SearchRegions from './SearchRegions';
+import SearchCounty from './SearchCounty';
+import DisplayData from './DisplayData';
+import TopList from './TopList';
 import './App.css';
+
 
 export default class App extends React.Component {
 
   constructor(props) {
     super(props);
-    this.getCountryData = this.getCountryData.bind(this);
+    this.getRegionData = this.getRegionData.bind(this);
+    this.getCountyData = this.getCountyData.bind(this);
   }
 
   state = {
+    usaData: {},
+    top10: [],
+    globalConfirmed: 0,
+    globalDeaths: 0,
+    usaConfirmed: 0,
+    usaDeaths: 0,
     confirmed: 0,
     recovered: 0,
     deaths: 0,
-    countries: []
-  }
-  componentDidMount() {
-    this.getData();
+    regions: [],
+    usaState: 0,
+    counties: [],
+    countyConfirmed: 0,
+    countyRecover: 0,
+    countyDeaths: 0
   }
 
+  componentDidMount() {
+    this.getData();
+    this.getGlobalData();
+    this.getUSAData();
+
+  }
+
+  // https://covid-api.com/api/reports?&iso=USA&region_province=Texas&province_name=Cameron
+// Global Total: https://covid-api.com/api/reports/total?
   async getData () {
-    const resAPI = await axios.get("https://covid19.mathdro.id/api");
-    const resCountries = await axios.get("https://covid19.mathdro.id/api/countries");
-    let countries = resCountries.data.countries.map((item) => item.name); 
+    const resp = await fetch(`https://covid-api.com/api/reports?&iso=USA`);
+    const usaData = await resp.json();
+    console.log(usaData);
+    const regions = usaData.data.map((item) => item.region.province);
+    const top10 = usaData.data.map(item => ({name:item.region.province, cases: item.active, deaths: item.deaths})).sort(function(a, b){
+      return b.cases - a.cases;}).slice(0,10);
     this.setState({
-      confirmed: resAPI.data.confirmed.value,
-      recovered: resAPI.data.recovered.value,
-      deaths: resAPI.data.deaths.value,
-      countries
+      regions,
+      top10,
+      usaData: usaData
+    });
+  }
+  async getGlobalData () {
+    const resp = await fetch("https://covid19.mathdro.id/api");
+    const data = await resp.json();
+    this.setState({
+      globalConfirmed: data.confirmed.value,
+      globalDeaths: data.deaths.value
+    });
+  }
+  
+  async getUSAData () {
+    const resp = await fetch("https://covid19.mathdro.id/api/countries/USA");
+    const data = await resp.json();
+    this.setState({
+      usaConfirmed: data.confirmed.value,
+      usaDeaths: data.deaths.value
     });
   }
 
-  async getCountryData(e) {
-    if (e.target.value === 'Worldwide') {
+  async getRegionData(e) {
+    if (e.target.value === 'USA') {
       return this.getData();
     }
     try {
-      const resCountry = await axios.get(`https://covid19.mathdro.id/api/countries/${e.target.value}`);
-    this.setState({
-      confirmed: resCountry.data.confirmed.value,
-      recovered: resCountry.data.recovered.value,
-      deaths: resCountry.data.deaths.value,
-    });
+      const selected = e.target.value;
+      const selectState = await axios.get(`https://covid-api.com/api/reports?&iso=USA&region_province=${selected}`);
+      console.log(selectState);
+      console.log(selected);
+      const stateData = selectState.data.data[0];
+      this.setState({
+        confirmed: stateData.confirmed,
+        active: stateData.active,
+        deaths: stateData.deaths,
+        usaState:selected,
+      });
+
+      this.getCounties();
       
     }
     catch (err) {
@@ -55,36 +104,51 @@ export default class App extends React.Component {
     }   
   }
 
-  renderCountryOptions () {
-    return this.state.countries.map((country, i) => {
-      return <option key={i}>{country}</option>
+  async getCounties () {
+    const resp = await fetch(`https://covid-api.com/api/reports?&iso=USA&region_province=${this.state.usaState}`);
+    const stateData = await resp.json();
+    const counties = stateData.data[0].region.cities.map((item) => item.name);
+    this.setState({
+      counties
     });
-
+    // console.log(this.state.counties);
   }
-  render () {
-    return(
-      <div className="container">
-        <h1>Covid-19 Update</h1>
-        <select className="dropdown" onChange={this.getCountryData}>
-        <option>Worldwide</option>
-          {this.renderCountryOptions()}
-        </select>
-        <div className="flex">
-          <div className="box confirmed">
-            <h3>Confirmed Cases</h3>
-            <h4>{this.state.confirmed}</h4>
-          </div>
-          <div className="box recovered">
-            <h3>Confirmed Recovered</h3>
-            <h4>{this.state.recovered}</h4>
-          </div>
-          <div className="box deaths">
-            <h3>Confirmed Deaths</h3>
-            <h4>{this.state.deaths}</h4>
-          </div>
-        </div>
+
+async getCountyData(e) {
+  const selectedCounty = e.target.value;
+  const resp = await fetch(`https://covid-api.com/api/reports?&iso=USA&region_province=${this.state.usaState}`);
+  const regions = await resp.json();
+  const cities = regions.data[0].region.cities;
+  
+  function isCity(city) {
+    return city.name === selectedCounty;
+  }
+  const countyData = cities.find(isCity);
+  console.log(countyData);
+  this.setState({
+    countyConfirmed: countyData.confirmed,
+    countyDeaths: countyData.deaths
+  });
+  console.log(`Confirmed:${this.state.countyConfirmed} Deaths: ${this.state.countyDeaths}`)
+  
+}
+
+render () {
+  return(
+    <div className="container">
+      <h1>Covid-19 Update</h1>
+      <div className='flex flex-wrap justify-around'>
+        <DisplayData area={'Global'} confirmed={this.state.globalConfirmed} active={this.state.active} deaths={this.state.globalDeaths}/>
+        <DisplayData area={'United States'} confirmed={this.state.usaConfirmed} active={this.state.active} deaths={this.state.usaDeaths}/>
       </div>
-      )
+      
+      <TopList top10={this.state.top10} />
+      <SearchRegions regions={this.state.regions} getRegionData={this.getRegionData}/>
+      <DisplayData area={this.state.usaState} confirmed={this.state.confirmed} active={this.state.active} deaths={this.state.deaths}/>
+      <SearchCounty className="ml5" counties={this.state.counties} getCountyData={this.getCountyData}/>
+      <DisplayData area={`County`} confirmed={this.state.countyConfirmed} active='no data' deaths={this.state.countyDeaths}/>
+    </div>
+    )
 }
 }
 

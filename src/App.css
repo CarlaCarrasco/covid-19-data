@@ -23,13 +23,13 @@ h1 {
   text-align: center;
 }
 
-.flex {
+/* .flex {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   flex-wrap: wrap;
   min-height: 66vh;
-}
+} */
 
 .box {
   margin: 1em;
