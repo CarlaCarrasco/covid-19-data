@@ -146,7 +146,7 @@ async getCountyData(e) {
 render () {
   return(
     <div className="container">
-      <h1>Covid-19 Update</h1>
+      <h1 className="bg-dark-gray white">Covid-19 Data</h1>
       <div className='flex flex-wrap justify-around'>
         <DisplayData area={'Global'} confirmed={this.state.globalConfirmed} active={this.state.active} deaths={this.state.globalDeaths}/>
         <DisplayData area={'United States'} confirmed={this.state.usaConfirmed} active={this.state.active} deaths={this.state.usaDeaths}/>
