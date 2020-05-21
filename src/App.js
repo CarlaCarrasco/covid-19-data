@@ -150,10 +150,8 @@ render () {
       <div className='flex flex-wrap justify-around'>
         <DisplayData area={'Global'} confirmed={this.state.globalConfirmed} active={this.state.active} deaths={this.state.globalDeaths}/>
         <DisplayData area={'United States'} confirmed={this.state.usaConfirmed} active={this.state.active} deaths={this.state.usaDeaths}/>
-        <Chart className='pa5' dailyData={this.state.dailyData} />
       </div>
-     
-      
+      <Chart className='pa5' dailyData={this.state.dailyData} />
       <TopList top10={this.state.top10} />
       <SearchRegions regions={this.state.regions} getRegionData={this.getRegionData}/>
       <DisplayData area={this.state.usaState} confirmed={this.state.confirmed} active={this.state.active} deaths={this.state.deaths}/>

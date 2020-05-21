@@ -10,8 +10,8 @@ export default function DisplayData(props){
     return(
       <div className="display-data">
         <h2>{props.area}</h2>
-          <div className="flex">
-            <article className="center mw5 mw6-ns br4 hidden ba b--white-10 mv4">
+          <div className="flex justify-around">
+            <article className="mr3 mw5 mw6-ns br4 hidden ba b--white-10 mv4">
               <h3 className="f4 bg-dark-gray br3 br--top black-60 mv0 pv2 ph3 orange">Confirmed Cases</h3>
               <div className="pa3 bt b--black-10">
                 <h2 className="f2 f5-ns lh-copy measure orange">
@@ -19,7 +19,7 @@ export default function DisplayData(props){
                 </h2>
               </div>
             </article>
-            <article className="center mw5 mw6-ns br4 hidden ba b--white-10 mv4">
+            <article className="mr3 mw5 mw6-ns br4 hidden ba b--white-10 mv4">
               <h3 className="f4 bg-dark-gray br3 br--top black-60 mv0 pv2 ph3 dark-red">Confirmed Deaths</h3>
               <div className="pa3 bt b--black-10">
                 <h2 className="f2 f5-ns lh-copy measure dark-red">
