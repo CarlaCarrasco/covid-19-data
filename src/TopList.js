@@ -4,7 +4,7 @@ import React from 'react';
 import './App.css';
 
 const TopList = ({top10}) => {
-
+   
     function renderTop10 () { 
         return top10.map((item) => 
         <tr className="bb" key={item.name.toString()}>
@@ -13,6 +13,7 @@ const TopList = ({top10}) => {
             <td className="pv2 ph3">{item.deaths}</td>
         </tr>
       );
+       
     }
     renderTop10();
 

@@ -4,6 +4,7 @@ import SearchRegions from './SearchRegions';
 import SearchCounty from './SearchCounty';
 import DisplayData from './DisplayData';
 import TopList from './TopList';
+import Chart from './components/Chart/Chart';
 import './App.css';
 
 
@@ -18,8 +19,7 @@ export default class App extends React.Component {
   state = {
     usaData: {},
     top10: [],
-    globalConfirmed: 0,
-    globalDeaths: 0,
+    dailyData: [],
     usaConfirmed: 0,
     usaDeaths: 0,
     confirmed: 0,
@@ -36,6 +36,7 @@ export default class App extends React.Component {
   componentDidMount() {
     this.getData();
     this.getGlobalData();
+    this.getGlobalDailyData();
     this.getUSAData();
 
   }
@@ -45,7 +46,6 @@ export default class App extends React.Component {
   async getData () {
     const resp = await fetch(`https://covid-api.com/api/reports?&iso=USA`);
     const usaData = await resp.json();
-    console.log(usaData);
     const regions = usaData.data.map((item) => item.region.province);
     const top10 = usaData.data.map(item => ({name:item.region.province, cases: item.active, deaths: item.deaths})).sort(function(a, b){
       return b.cases - a.cases;}).slice(0,10);
@@ -63,7 +63,17 @@ export default class App extends React.Component {
       globalDeaths: data.deaths.value
     });
   }
-  
+  // Chart Data
+  async getGlobalDailyData () {
+    const resp = await fetch("https://covid19.mathdro.id/api/daily");
+    const data = await resp.json();
+    console.log(data);
+    const dailyData = data.map(item => ({confirmed:item.confirmed, deaths: item.deaths, date: item.reportDate}));
+    console.log(dailyData);
+    this.setState({
+      dailyData,
+    });
+  }
   async getUSAData () {
     const resp = await fetch("https://covid19.mathdro.id/api/countries/USA");
     const data = await resp.json();
@@ -140,7 +150,9 @@ render () {
       <div className='flex flex-wrap justify-around'>
         <DisplayData area={'Global'} confirmed={this.state.globalConfirmed} active={this.state.active} deaths={this.state.globalDeaths}/>
         <DisplayData area={'United States'} confirmed={this.state.usaConfirmed} active={this.state.active} deaths={this.state.usaDeaths}/>
+        <Chart className='pa5' dailyData={this.state.dailyData} />
       </div>
+     
       
       <TopList top10={this.state.top10} />
       <SearchRegions regions={this.state.regions} getRegionData={this.getRegionData}/>
