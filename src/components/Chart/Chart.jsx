@@ -8,7 +8,7 @@ const Chart = ({dailyData}) => {
       dailyData.length ? (
         <Line
           data={{
-            labels: dailyData.map(({ date }) => date),
+            labels: dailyData.map(({ date }) => date.slice(5, 10)),
             datasets: [{
               data: dailyData.map(({ confirmed }) => confirmed.total),
               label: 'Infected',
@@ -27,7 +27,7 @@ const Chart = ({dailyData}) => {
     );
   
     return (
-      <div className='pa4'>
+      <div className='center mv3' style={{height:'auto', width:'60vw'}}>
         {/* <h1>Line Chart Goes Here...</h1> */}
         {lineChart}
       </div>

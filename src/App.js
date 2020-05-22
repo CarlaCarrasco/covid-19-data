@@ -153,6 +153,8 @@ render () {
       </div>
       <Chart className='pa5' dailyData={this.state.dailyData} />
       <TopList top10={this.state.top10} />
+
+      
       <SearchRegions regions={this.state.regions} getRegionData={this.getRegionData}/>
       <DisplayData area={this.state.usaState} confirmed={this.state.confirmed} active={this.state.active} deaths={this.state.deaths}/>
       <SearchCounty className="ml5" counties={this.state.counties} getCountyData={this.getCountyData}/>

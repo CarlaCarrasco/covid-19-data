@@ -15,7 +15,7 @@ export default function DisplayData(props){
               <h3 className="f4 bg-dark-gray br3 br--top black-60 mv0 pv2 ph3 orange">Confirmed Cases</h3>
               <div className="pa3 bt b--black-10">
                 <h2 className="f2 f5-ns lh-copy measure orange">
-                  {props.confirmed}
+                  {props.confirmed ? props.confirmed.toLocaleString() : '-'}
                 </h2>
               </div>
             </article>
@@ -23,7 +23,7 @@ export default function DisplayData(props){
               <h3 className="f4 bg-dark-gray br3 br--top black-60 mv0 pv2 ph3 dark-red">Confirmed Deaths</h3>
               <div className="pa3 bt b--black-10">
                 <h2 className="f2 f5-ns lh-copy measure dark-red">
-                  {props.deaths}
+                  {props.deaths ? props.deaths.toLocaleString() : '-'}
                 </h2>
               </div>
             </article>
