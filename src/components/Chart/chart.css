@@ -1,0 +1,6 @@
+@media only screen and (max-width : 321px) {
+    .line-chart-style {
+      height: auto;
+      width: 60vw;
+    }
+  }

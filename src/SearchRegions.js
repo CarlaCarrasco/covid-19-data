@@ -14,12 +14,14 @@ const SearchRegions = ({regions, getRegionData}) => {
       }
 
     return(
-        <select className="dropdown bg-black bn light-gray" onChange={getRegionData}>
+      <div>
+        <h2>US State</h2>
+        <select className="dropdown bg-black bn light-gray f6" onChange={getRegionData}>
         <option>Select State</option>
           {renderCountryOptions()}
         </select>
-      )
-
+      </div>
+      );
 }
 
 export default SearchRegions;

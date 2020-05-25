@@ -14,10 +14,14 @@ const SearchCounty = ({counties, getCountyData}) => {
       }
 
     return(
-        <select className="dropdown bg-black bn light-gray" onChange={getCountyData}>
-          <option>Select County</option>
-          {renderCountryOptions()}
-        </select>
+      <div>
+        <h2>US County</h2>
+        <select className="dropdown bg-black bn light-gray f6" onChange={getCountyData}>
+            <option>Select County</option>
+            {renderCountryOptions()}
+          </select>
+      </div>
+       
       )
 
 }

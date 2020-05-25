@@ -9,20 +9,20 @@ export default function DisplayData(props){
 
     return(
       <div className="display-data">
-        <h2>{props.area}</h2>
-          <div className="flex justify-between">
-            <article className="w-50 mr3 mw5 mw6-ns br4 hidden ba b--white-10 mv4">
-              <h3 className="f4 bg-dark-gray br3 br--top black-60 mv0 pv2 ph3 orange">Confirmed Cases</h3>
-              <div className="pa3 bt b--black-10">
-                <h2 className="f3 f5-ns lh-copy measure orange">
+        <h2>{props.area ? props.area : ''}</h2>
+          <div className="flex justify-around">
+            <article className="w-50-ns mr3 mw5 mw6-ns br4 hidden ba b--white-10 mv4">
+              <h3 className="f4 bg-dark-gray br3 br--top black-60 mv0 pv2 ph3 orange">Confirmed <div>Cases</div></h3>
+              <div className="pa3 pa4-ns bt b--black-10"> 
+                <h2 className="f3 lh-copy measure orange">
                   {props.confirmed ? props.confirmed.toLocaleString() : '-'}
                 </h2>
               </div>
             </article>
-            <article className="w-50 center mr3 mw5 mw6-ns br4 hidden ba b--white-10 mv4">
+            <article className="w-50-ns center mh0-ns mr3 mw5 mw6-ns br4 hidden ba b--white-10 mv4">
               <h3 className="f4 bg-dark-gray br3 br--top black-60 mv0 pv2 ph3 dark-red">Confirmed Deaths</h3>
-              <div className="pa3 bt b--black-10">
-                <h2 className="f3 f5-ns lh-copy measure dark-red">
+              <div className="pa3 pa4-ns bt b--black-10">
+                <h2 className="f3 lh-copy measure dark-red">
                   {props.deaths ? props.deaths.toLocaleString() : '-'}
                 </h2>
               </div>

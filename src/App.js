@@ -147,18 +147,24 @@ render () {
   return(
     <div className="container">
       <h1 className="bg-dark-gray white">Covid-19 Data</h1>
-      <div className='flex flex-wrap'>
+      <div className='flex flex-wrap justify-around'>
         <DisplayData area={'Global'} confirmed={this.state.globalConfirmed} active={this.state.active} deaths={this.state.globalDeaths}/>
         <DisplayData area={'United States'} confirmed={this.state.usaConfirmed} active={this.state.active} deaths={this.state.usaDeaths}/>
       </div>
       <Chart className='pa5' dailyData={this.state.dailyData} />
       <TopList top10={this.state.top10} />
+      <div className='flex flex-wrap justify-around'>
+        <div>
+          <SearchRegions regions={this.state.regions} getRegionData={this.getRegionData}/>
+          <DisplayData confirmed={this.state.confirmed} active={this.state.active} deaths={this.state.deaths}/>
+        </div>
+        <div>
+          <SearchCounty className="ml5" counties={this.state.counties} getCountyData={this.getCountyData}/>
+          <DisplayData confirmed={this.state.countyConfirmed} active='no data' deaths={this.state.countyDeaths}/>
+        </div>
+        
+      </div>
 
-      
-      <SearchRegions regions={this.state.regions} getRegionData={this.getRegionData}/>
-      <DisplayData area={this.state.usaState} confirmed={this.state.confirmed} active={this.state.active} deaths={this.state.deaths}/>
-      <SearchCounty className="ml5" counties={this.state.counties} getCountyData={this.getCountyData}/>
-      <DisplayData area={`County`} confirmed={this.state.countyConfirmed} active='no data' deaths={this.state.countyDeaths}/>
     </div>
     )
 }

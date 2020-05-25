@@ -1,5 +1,6 @@
 import React  from 'react';
 import { Line, Bar } from 'react-chartjs-2';
+import './chart.css';
 
 const Chart = ({dailyData}) => {
     console.log(dailyData);
@@ -25,9 +26,9 @@ const Chart = ({dailyData}) => {
         />
       ) : null
     );
-  
+   
     return (
-      <div className='center mv3' style={{height:'auto', width:'60vw'}}>
+      <div className='center mv3 line-chart-style'>
         {/* <h1>Line Chart Goes Here...</h1> */}
         {lineChart}
       </div>

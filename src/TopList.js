@@ -18,7 +18,7 @@ const TopList = ({top10}) => {
     renderTop10();
 
     return(
-        <div className='top-list'>
+        <div className='top-list mb4'>
             <h2 className='mb3'>Top 10</h2>         
             <table className="collapse ba br2 b--black-10 pv2 ph3 bg-light-gray gray tl center">
                 <tbody>
