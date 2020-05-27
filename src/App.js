@@ -162,9 +162,7 @@ render () {
           <SearchCounty className="ml5" counties={this.state.counties} getCountyData={this.getCountyData}/>
           <DisplayData confirmed={this.state.countyConfirmed} active='no data' deaths={this.state.countyDeaths}/>
         </div>
-        
       </div>
-
     </div>
     )
 }
