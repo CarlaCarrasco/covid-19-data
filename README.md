@@ -1,3 +1,7 @@
+## COVID-19 DATA APP
+
+This app track COVID-19 cases and deaths in the US. 
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
