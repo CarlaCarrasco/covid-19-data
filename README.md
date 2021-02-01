@@ -2,6 +2,13 @@
 
 This app track COVID-19 cases and deaths in the US. 
 
+## Technologies
+
+- React
+- Creat-React-App
+- JSX
+- CSS
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
